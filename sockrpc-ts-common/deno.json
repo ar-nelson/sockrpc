@@ -1,0 +1,21 @@
+{
+  "imports": {
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
+    "@protobuf-ts/plugin": "npm:@protobuf-ts/plugin@^2.9.6",
+    "@protobuf-ts/runtime": "npm:@protobuf-ts/runtime@^2.9.6",
+    "@protobuf-ts/runtime-rpc": "npm:@protobuf-ts/runtime-rpc@^2.9.6",
+    "@types/node": "npm:@types/node@^22.14.1"
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "compilerOptions": {
+    "noImplicitOverride": false
+  },
+  "tasks": {
+    "protobuf": "mkdir -p pb && protoc --plugin=./scripts/protoc-gen-ts --ts_out pb --ts_opt long_type_number --proto_path .. ../sockrpc.proto && ./scripts/add-ts-extension.ts pb",
+    "protobuf-test": "mkdir -p test/pb && protoc --plugin=./scripts/protoc-gen-ts --ts_out test/pb --ts_opt server_generic --proto_path test test/exampleService.proto && ./scripts/add-ts-extension.ts test/pb",
+  }
+}

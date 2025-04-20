@@ -1,0 +1,9 @@
+#!/usr/bin/env -S deno run --allow-read --allow-write
+import { ProtobuftsPlugin } from "@protobuf-ts/plugin/build/protobufts-plugin.js"
+
+try {
+  await new ProtobuftsPlugin("2.9.6").run()
+} catch (e) {
+  console.error("failed to run plugin", e)
+  Deno.exit(1)
+}

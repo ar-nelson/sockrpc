@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message Number {
+  int32 n = 1;
+}
+
+service ExampleService {
+  rpc Foo(Number) returns (Number);
+  rpc Bar(stream Number) returns (Number);
+  rpc Baz(Number) returns (stream Number);
+  rpc Qux(stream Number) returns (stream Number);
+}
