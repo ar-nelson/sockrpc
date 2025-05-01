@@ -43,7 +43,7 @@ type PubkeyValidator = (
 export interface ServerOptions {
   service: ServiceInfo
   version?: string
-  handlers: object
+  handlers: any
   auth:
     | { userId: string }
     | {
