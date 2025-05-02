@@ -86,53 +86,55 @@ Deno.test("WebSocket RPC Tests", async (t) => {
   const server = createServer(42069);
   const { client, ws } = await createClient();
 
-  await t.step("Unary RPC (Foo)", async () => {
-    const response = await client.foo({ n: 42 }).response;
-    assertEquals(response.n, 43);
-  });
+  try {
+    await t.step("Unary RPC (Foo)", async () => {
+      const response = await client.foo({ n: 42 }).response;
+      assertEquals(response.n, 43);
+    });
 
-  await t.step("Client Streaming RPC (Bar)", async () => {
-    const call = client.bar();
-    await call.requests.send({ n: 1 });
-    await call.requests.send({ n: 2 });
-    await call.requests.send({ n: 3 });
-    await call.requests.complete();
-    const response = await call.response;
-    assertEquals(response.n, 6);
-  });
+    await t.step("Client Streaming RPC (Bar)", async () => {
+      const call = client.bar();
+      await call.requests.send({ n: 1 });
+      await call.requests.send({ n: 2 });
+      await call.requests.send({ n: 3 });
+      await call.requests.complete();
+      const response = await call.response;
+      assertEquals(response.n, 6);
+    });
 
-  await t.step("Server Streaming RPC (Baz)", async () => {
-    const call = client.baz({ n: 3 });
-    const numbers: number[] = [];
-    for await (const { n } of call.responses) {
-      numbers.push(n);
-    }
-    assertEquals(numbers, [3, 2, 1]);
-  });
-
-  await t.step("Duplex Streaming RPC (Qux)", async () => {
-    const call = client.qux();
-    const numbers: number[] = [];
-
-    // Start receiving responses
-    const receivePromise = (async () => {
+    await t.step("Server Streaming RPC (Baz)", async () => {
+      const call = client.baz({ n: 3 });
+      const numbers: number[] = [];
       for await (const { n } of call.responses) {
         numbers.push(n);
       }
-    })();
+      assertEquals(numbers, [3, 2, 1]);
+    });
 
-    // Send requests
-    await call.requests.send({ n: 1 });
-    await call.requests.send({ n: 2 });
-    await call.requests.send({ n: 3 });
-    await call.requests.complete();
+    await t.step("Duplex Streaming RPC (Qux)", async () => {
+      const call = client.qux();
+      const numbers: number[] = [];
 
-    // Wait for all responses
-    await receivePromise;
-    assertEquals(numbers, [1, 3, 6]);
-  });
+      // Start receiving responses
+      const receivePromise = (async () => {
+        for await (const { n } of call.responses) {
+          numbers.push(n);
+        }
+      })();
 
-  // Cleanup
-  ws.close();
-  server.shutdown();
+      // Send requests
+      await call.requests.send({ n: 1 });
+      await call.requests.send({ n: 2 });
+      await call.requests.send({ n: 3 });
+      await call.requests.complete();
+
+      // Wait for all responses
+      await receivePromise;
+      assertEquals(numbers, [1, 3, 6]);
+    });
+  } finally {
+    // Cleanup
+    ws.close();
+    server.shutdown();
+  }
 });

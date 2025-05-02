@@ -1,28 +1,13 @@
-import { build, emptyDir } from "@deno/dnt"
+#!/usr/bin/env -S deno run -A
+import { rollup } from "rollup"
+import typescript from "@rollup/plugin-typescript"
 
-await emptyDir("./npm")
+await Deno.mkdir("./node", { recursive: true })
 
-await build({
-  entryPoints: ["./mod.ts"],
-  outDir: "./npm",
-  shims: {},
-  package: {
-    name: "sockrpc-common",
-    version: Deno.args[0],
-    description:
-      "Generic server and client support for SockRPC, based on protobuf-ts",
-    license: "MIT",
-    repository: {
-      type: "git",
-      url: "git+https://github.com/ar-nelson/sockrpc.git",
-    },
-    bugs: {
-      url: "https://github.com/username/ar-nelson/sockrpc",
-    },
+const bundle = await rollup({
+  input: "mod.ts",
+  output: {
+    dir: "./node",
   },
-  postBuild() {
-    // steps to run after building and before running the tests
-    Deno.copyFileSync("LICENSE", "npm/LICENSE")
-    Deno.copyFileSync("README.md", "npm/README.md")
-  },
+  plugins: [typescript()],
 })

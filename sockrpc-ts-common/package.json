@@ -1,0 +1,31 @@
+{
+  "name": "sockrpc",
+  "version": "0.1.0",
+  "description": "gRPC-like RPC protocol using Protocol Buffers and WebSockets",
+  "main": "node/index.mjs",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "deno test -A"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ar-nelson/sockrpc.git"
+  },
+  "author": "Adam R. Nelson <adam@nels.onl>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ar-nelson/sockrpc/issues"
+  },
+  "homepage": "https://github.com/ar-nelson/sockrpc#readme",
+  "dependencies": {
+    "@protobuf-ts/runtime": "^2.10.0",
+    "@protobuf-ts/runtime-rpc": "^2.10.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "@types/node": "^22.15.3"
+  }
+}

@@ -1,10 +1,8 @@
 {
   "imports": {
-    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
     "@protobuf-ts/plugin": "npm:@protobuf-ts/plugin@^2.9.6",
     "@protobuf-ts/runtime": "npm:@protobuf-ts/runtime@^2.9.6",
-    "@protobuf-ts/runtime-rpc": "npm:@protobuf-ts/runtime-rpc@^2.9.6",
-    "@types/node": "npm:@types/node@^22.14.1"
+    "@protobuf-ts/runtime-rpc": "npm:@protobuf-ts/runtime-rpc@^2.9.6"
   },
   "lint": {
     "rules": {

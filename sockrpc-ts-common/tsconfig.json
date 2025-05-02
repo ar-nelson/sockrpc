@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noImplicitAny": false,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "sourceMap": true,
+    "outDir": "./node",
+    "declaration": true,
+    "declarationDir": "./node",
+    "lib": ["ESNext", "dom"],
+    "target": "esnext"
+  },
+  "exclude": ["mod.ts", "scripts/*", "test/**/*.ts", "node/**/*"]
+}
